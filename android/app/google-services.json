@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1034195289994",
+    "firebase_url": "https://irrigation-project-190ab-default-rtdb.firebaseio.com",
     "project_id": "irrigation-project-190ab",
     "storage_bucket": "irrigation-project-190ab.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1034195289994-2c62bj3kvqafnc550uq5ol5ucg0ejatc.apps.googleusercontent.com",
+          "client_id": "1034195289994-62r3fvo7trdh5kus32adgemralea02n3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appproject",
+            "certificate_hash": "538e53d08042bf810c28ced49c117711fcdfb13b"
+          }
+        },
+        {
+          "client_id": "1034195289994-b5vv5nntbd634q7968muc9risba1e27s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

@@ -17,15 +17,17 @@ class HomeScreen extends StatelessWidget {
           child: Column(children: [
             //Image.asset("assets/images/ชื่อไฟล์"),                                 //รูปภาพ
             SizedBox(
-              width: double.infinity,                                             //ขนาดปุ่ม
+              width: double.infinity, //ขนาดปุ่ม
               child: ElevatedButton.icon(
-                icon: Icon(Icons.add),                                            //ไอคอน
-                label: Text(                                                      //ชื่อปุ่ม
-                  "สร้างบัญชีผู้ใช้", 
+                icon: Icon(Icons.add), //ไอคอน
+                label: Text(
+                  //ชื่อปุ่ม
+                  "สร้างบัญชีผู้ใช้",
                   style: TextStyle(fontSize: 20),
                 ),
-                onPressed: () {                                                   //อีเว้นหลังจากกดปุ่ม
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                onPressed: () {
+                  //อีเว้นหลังจากกดปุ่ม
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return RegisterScreen();
                   }));
                 },
@@ -40,7 +42,8 @@ class HomeScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
                     return LoginScreen();
                   }));
                 },
