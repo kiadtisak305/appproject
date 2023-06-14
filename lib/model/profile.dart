@@ -6,3 +6,9 @@ class Profile {
   Profile(
       {required this.username, required this.email, required this.password});
 }
+
+class dataFirestore {
+  String valvename;
+
+  dataFirestore({required this.valvename});
+}

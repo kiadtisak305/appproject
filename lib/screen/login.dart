@@ -1,12 +1,12 @@
+import 'package:appproject/screen/addvalve.dart';
 import 'package:appproject/screen/register.dart';
-import 'package:appproject/screen/watercontrol.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 import '../model/profile.dart';
 
 //import '../presentation/my_flutter_app_icons.dart';
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Navigator.pushReplacement(context,
                                                   MaterialPageRoute(
                                                       builder: (context) {
-                                                return WaterControlScreen();
+                                                return AddValveScreen();
                                               }));
                                             });
                                           } on FirebaseAuthException catch (e) {
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                          return WaterControlScreen();
+                                          return AddValveScreen();
                                         }));
                                       }).catchError((e) {
                                         print(e.toString());

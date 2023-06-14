@@ -1,10 +1,8 @@
-import 'package:appproject/screen/watercontrol.dart';
-import 'package:appproject/screen/login.dart';
-import 'package:appproject/screen/sensor.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:appproject/datatable/eveningTable.dart';
+import 'package:appproject/datatable/morningTable.dart';
+import 'package:appproject/datatable/noonTable.dart';
+import 'package:appproject/screen/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
 
 class SensorScreen extends StatelessWidget {
   const SensorScreen({super.key});
@@ -12,115 +10,42 @@ class SensorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavigationDrawer(),
+      drawer: Navigation_Drawer(),
       appBar: AppBar(
         title: Text('ข้อมูลเซ็นเซอร์'),
+        centerTitle: true,
       ),
-    );
-  }
-}
-
-class NavigationDrawer extends StatelessWidget {
-  NavigationDrawer({super.key});
-  void AllsignOut() async {
-    await GoogleSignIn().signOut();
-  }
-
-  final auth = FirebaseAuth.instance;
-
-  @override
-  Widget build(BuildContext context) => Drawer(
-        child: SingleChildScrollView(
+      backgroundColor: Color(0xFFE6E6E6),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              buildHeader(context),
-              buildMenuItems(context),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 400,
+                  child: Card(child: const morningTable()),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 400,
+                  child: Card(child: const noonTable()),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 400,
+                  child: Card(child: const eveningTable()),
+                ),
+              ),
             ],
           ),
         ),
-      );
-
-  Widget buildHeader(BuildContext context) => Material(
-      color: Colors.blue.shade700,
-      child: InkWell(
-          onTap: () {},
-          child: Container(
-            padding: EdgeInsets.only(
-                top: 24 + MediaQuery.of(context).padding.top, bottom: 24),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 52,
-                  backgroundImage: NetworkImage(
-                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtI0qyw0VkvP2ArwuFBeVSdhVyR_nttyEcmQ&usqp=CAU'),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(auth.currentUser!.displayName.toString(),
-                    style: TextStyle(fontSize: 25, color: Colors.white)),
-                Text(auth.currentUser!.email.toString(),
-                    style: TextStyle(fontSize: 16, color: Colors.white)),
-              ],
-            ),
-          )));
-
-  Widget buildMenuItems(BuildContext context) => Container(
-        padding: EdgeInsets.all(24),
-        child: Wrap(
-          runSpacing: 16,
-          children: [
-            ListTile(
-                leading: Icon(
-                  Icons.water_drop,
-                  size: 30,
-                  color: Colors.black
-                ),
-                title: Text('ควบคุมระบบน้ำ',
-                    style: TextStyle(fontSize: 18, color: Colors.black)),
-                onTap: () =>
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const WaterControlScreen(),
-                  ))
-                ),
-            ListTile(
-                leading: Icon(
-                  Icons.sensors,
-                  size: 30,
-                  color: Colors.black
-                ),
-                title: Text('ข้อมูลเซ็นเซอร์',
-                    style: TextStyle(fontSize: 18, color: Colors.black)),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SensorScreen(),
-                  ));
-                }),
-            Divider(
-              color: Colors.black54,
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.logout,
-                size: 30,
-                color: Colors.red.shade900,
-              ),
-              title: Text(
-                'ออกจากระบบ',
-                style: TextStyle(fontSize: 18, color: Colors.red.shade900),
-              ),
-              onTap: () {
-                AllsignOut();
-                auth.signOut();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                }));
-              },
-            ),
-          ],
-        ),
-      );
+      ),
+    );
+  }
 }
