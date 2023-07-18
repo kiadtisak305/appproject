@@ -153,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Text(
-                                                "Sign in",
+                                                "เข้าสู่ระบบ",
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
@@ -232,7 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10)),
                                             Text(
-                                              'Sign in with Google',
+                                              'เข้าสู่ระบบด้วย Google',
                                               style: TextStyle(
                                                   fontSize: 20.0,
                                                   fontWeight: FontWeight.bold,
@@ -284,7 +284,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                                           .symmetric(
                                                       horizontal: 3)),
                                               Text(
-                                                "Sign up",
+                                                "สมัครบัญชีผู้ใช้งาน",
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,

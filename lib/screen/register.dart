@@ -1,5 +1,5 @@
 import 'package:appproject/model/profile.dart';
-import 'package:appproject/screen/home.dart';
+import 'package:appproject/screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 Text(
-                                                  "Sign up",
+                                                  "ลงทะเบียน",
                                                   style: TextStyle(
                                                       fontSize: 20,
                                                       fontWeight:
@@ -210,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 Navigator.pushReplacement(
                                                     context, MaterialPageRoute(
                                                         builder: (context) {
-                                                  return HomeScreen();
+                                                  return LoginScreen();
                                                 }));
                                               });
                                             } on FirebaseAuthException catch (e) {
