@@ -1,6 +1,6 @@
-import 'package:appproject/screen/addvalve.dart';
 import 'package:appproject/screen/login.dart';
 import 'package:appproject/screen/sensor.dart';
+import 'package:appproject/screen/sensorGauge.dart';
 import 'package:appproject/screen/watercontrol.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -57,14 +57,6 @@ class Navigation_Drawer extends StatelessWidget {
           runSpacing: 16,
           children: [
             ListTile(
-                leading: Icon(Icons.add_circle, size: 30, color: Colors.black),
-                title: Text('เพิ่มวาว์ลน้ำ',
-                    style: TextStyle(fontSize: 18, color: Colors.black)),
-                onTap: () =>
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => AddValveScreen(),
-                    ))),
-            ListTile(
                 leading: Icon(Icons.water_drop, size: 30, color: Colors.black),
                 title: Text('ควบคุมระบบน้ำ',
                     style: TextStyle(fontSize: 18, color: Colors.black)),
@@ -74,7 +66,7 @@ class Navigation_Drawer extends StatelessWidget {
                     ))),
             ListTile(
                 leading: Icon(Icons.sensors, size: 30, color: Colors.black),
-                title: Text('ข้อมูลเซ็นเซอร์',
+                title: Text('ข้อมูลเซนเซอร์',
                     style: TextStyle(fontSize: 18, color: Colors.black)),
                 onTap: () {
                   Navigator.pop(context);
@@ -82,6 +74,15 @@ class Navigation_Drawer extends StatelessWidget {
                     builder: (context) => const SensorScreen(),
                   ));
                 }),
+            ListTile(
+                leading:
+                    Icon(Icons.speed_rounded, size: 30, color: Colors.black),
+                title: Text('มาตรวัดเซนเซอร์',
+                    style: TextStyle(fontSize: 18, color: Colors.black)),
+                onTap: () =>
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => sensorGaugeScreen(),
+                    ))),
             Divider(
               color: Colors.black54,
             ),

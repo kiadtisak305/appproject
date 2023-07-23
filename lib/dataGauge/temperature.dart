@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+class temperature extends StatelessWidget {
+  const temperature({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.pink.shade100,
+      body: Center(
+          child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(35.0),
+            child: SfRadialGauge(
+              title: GaugeTitle(
+                text: "อุณหภูมิ",
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              axes: <RadialAxis>[
+                RadialAxis(
+                  minimum: -30,
+                  maximum: 50,
+                  interval: 10,
+                  ticksPosition: ElementsPosition.outside,
+                  labelsPosition: ElementsPosition.outside,
+                  minorTicksPerInterval: 4,
+                  radiusFactor: 0.9,
+                  labelOffset: 10,
+                  tickOffset: 2,
+                  minorTickStyle: MinorTickStyle(
+                      thickness: 1.5,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      length: 0.075,
+                      lengthUnit: GaugeSizeUnit.factor),
+                  majorTickStyle: MinorTickStyle(
+                    thickness: 1.5,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                    length: 0.15,
+                    lengthUnit: GaugeSizeUnit.factor,
+                  ),
+                  axisLineStyle: AxisLineStyle(
+                    thickness: 3,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  axisLabelStyle: GaugeTextStyle(
+                    fontSize: 11,
+                    color: Color.fromARGB(255, 0, 0, 0),
+                  ),
+                  ranges: [
+                    GaugeRange(
+                      rangeOffset: 7,
+                      startValue: -30,
+                      endValue: 18,
+                      color: Colors.blue.shade400,
+                      startWidth: 20,
+                      endWidth: 20,
+                    ),
+                    GaugeRange(
+                        rangeOffset: 7,
+                        startValue: 18.5,
+                        endValue: 25,
+                        color: Colors.green.shade600,
+                        startWidth: 20,
+                        endWidth: 20),
+                    GaugeRange(
+                        rangeOffset: 7,
+                        startValue: 25.5,
+                        endValue: 50,
+                        color: Colors.orange.shade700,
+                        startWidth: 20,
+                        endWidth: 20)
+                  ],
+                  pointers: <GaugePointer>[
+                    NeedlePointer(
+                        enableAnimation: true,
+                        value: 25,
+                        lengthUnit: GaugeSizeUnit.factor,
+                        needleLength: 0.6,
+                        needleEndWidth: 9,
+                        gradient: const LinearGradient(colors: <Color>[
+                          Color(0xFFFF6B78),
+                          Color(0xFFFF6B78),
+                          Color(0xFFE20A22),
+                          Color(0xFFE20A22)
+                        ], stops: <double>[
+                          0,
+                          0.5,
+                          0.5,
+                          1
+                        ]),
+                        needleColor: Color(0xFFF67280),
+                        knobStyle: KnobStyle(
+                            knobRadius: 0.08,
+                            sizeUnit: GaugeSizeUnit.factor,
+                            color: Colors.black)),
+                  ],
+                  annotations: <GaugeAnnotation>[
+                    GaugeAnnotation(
+                        angle: 90,
+                        positionFactor: 1,
+                        widget: Text(
+                          '25 °C',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      )),
+    );
+  }
+}

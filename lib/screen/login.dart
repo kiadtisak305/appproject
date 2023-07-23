@@ -1,5 +1,5 @@
-import 'package:appproject/screen/addvalve.dart';
 import 'package:appproject/screen/register.dart';
+import 'package:appproject/screen/watercontrol.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               Navigator.pushReplacement(context,
                                                   MaterialPageRoute(
                                                       builder: (context) {
-                                                return AddValveScreen();
+                                                return WaterControlScreen();
                                               }));
                                             });
                                           } on FirebaseAuthException catch (e) {
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                          return AddValveScreen();
+                                          return WaterControlScreen();
                                         }));
                                       }).catchError((e) {
                                         print(e.toString());
