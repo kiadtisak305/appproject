@@ -42,10 +42,12 @@ dependencies:
   google_sign_in: ^6.0.2
   flutter_svg: ^2.0.3
   text_field_suffix_button: ^0.1.0
-  firebase_database: ^10.2.2
+  firebase_database: ^10.2.4
   sliding_switch: ^1.1.0
-  cloud_firestore: ^4.8.0
+  cloud_firestore: ^4.8.4
   syncfusion_flutter_gauges: ^22.1.39
+  colorful_circular_progress_indicator: ^0.0.2
+  custom_refresh_indicator: ^2.2.1
 
 dev_dependencies:
   flutter_test:

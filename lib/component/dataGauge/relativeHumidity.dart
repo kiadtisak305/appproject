@@ -28,6 +28,12 @@ class _relativeHumidityState extends State<relativeHumidity> {
   }
 
   @override
+  void dispose() {
+    _RHValue.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.pink.shade100,

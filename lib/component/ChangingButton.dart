@@ -9,48 +9,56 @@ class ChangingButton extends StatefulWidget {
 
 class _ChangingButtonState extends State<ChangingButton> {
   DatabaseReference ref = FirebaseDatabase.instance.ref();
+  final TextEditingController switchValue = TextEditingController();
+  bool? switchStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    ref.child("Controls/waterValve/No1/Turn").onValue.listen((event) {
+      final turnValue = event.snapshot.value;
+      setState(() {
+        switchStatus = (turnValue == "on");
+        switchValue.text = turnValue.toString();
+      });
+    });
+  }
 
   void changeStatus(bool value) {
-    if (value == false) {
-      setState(() {
-        OffStatus();
-      });
-    } else {
-      setState(() {
-        OnStatus();
-      });
-    }
+    setState(() {
+      switchStatus = value;
+    });
   }
 
-  void OnStatus() {
-    DatabaseReference newRef = ref.child("Controls/waterValve/No1/Turn").push();
-    String? uniqueKey = newRef.key;
-    ref.child("Controls/waterValve/No1").set({
-      "Turn": {uniqueKey: "on"},
-      "Valve": "on"
-    });
-    print('Generated Unique Key: $uniqueKey : "on"');
-  }
-
-  void OffStatus() {
-    DatabaseReference newRef = ref.child("Controls/waterValve/No1/Turn").push();
-    String? uniqueKey = newRef.key;
-    ref.child("Controls/waterValve/No1").set({
-      "Turn": {uniqueKey: "off"},
-      "Valve": "off"
-    });
-    print('Generated Unique Key: $uniqueKey : "off"');
+  @override
+  void dispose() {
+    switchValue.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (switchStatus == null) {
+      // Return a loading indicator or any other content while switchStatus is null
+      return CircularProgressIndicator();
+    }
     return SlidingSwitch(
-      value: false,
+      value: switchStatus!,
       width: 290,
       onChanged: changeStatus,
       height: 50,
-      animationDuration: const Duration(milliseconds: 400),
-      onTap: () {},
+      animationDuration: const Duration(milliseconds: 1),
+      onTap: () {
+        if (switchValue.text == "on") {
+          ref
+              .child("Controls/waterValve/No1")
+              .set({"Turn": "off", "Valve": "ปิด"});
+        } else if (switchValue.text == "off") {
+          ref
+              .child("Controls/waterValve/No1")
+              .set({"Turn": "on", "Valve": "เปิด"});
+        }
+      },
       onDoubleTap: () {},
       onSwipe: () {},
       textOff: "OFF",

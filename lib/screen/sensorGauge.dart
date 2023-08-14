@@ -22,11 +22,11 @@ class _sensorGaugeScreenState extends State<sensorGaugeScreen> {
       backgroundColor: Color(0xFFE6E6E6),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5),
                 child: Container(
                   height: 450,
                   child: Card(
@@ -36,14 +36,14 @@ class _sensorGaugeScreenState extends State<sensorGaugeScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5),
                 child: Container(
                   height: 450,
                   child: Card(child: const relativeHumidity()),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5),
                 child: Container(
                   height: 450,
                   child: Card(child: const temperature()),

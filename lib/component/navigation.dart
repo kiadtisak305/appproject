@@ -1,3 +1,4 @@
+import 'package:appproject/component/LoadingScreen.dart';
 import 'package:appproject/screen/login.dart';
 import 'package:appproject/screen/sensor.dart';
 import 'package:appproject/screen/sensorGauge.dart';
@@ -60,29 +61,60 @@ class Navigation_Drawer extends StatelessWidget {
                 leading: Icon(Icons.water_drop, size: 30, color: Colors.black),
                 title: Text('ควบคุมระบบน้ำ',
                     style: TextStyle(fontSize: 18, color: Colors.black)),
-                onTap: () =>
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const WaterControlScreen(),
-                    ))),
+                onTap: () {
+                  // แสดงหน้าโหลด
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return LoadingScreen();
+                  }));
+
+                  Future.delayed(Duration(seconds: 2), () {
+                    // Delay เป็นเวลา 2 วินาที
+                    Navigator.pop(context); // ปิดหน้าโหลด
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return WaterControlScreen();
+                    }));
+                  });
+                }),
             ListTile(
                 leading: Icon(Icons.sensors, size: 30, color: Colors.black),
                 title: Text('ข้อมูลเซนเซอร์',
                     style: TextStyle(fontSize: 18, color: Colors.black)),
                 onTap: () {
-                  Navigator.pop(context);
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const SensorScreen(),
-                  ));
+                  // แสดงหน้าโหลด
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return LoadingScreen();
+                  }));
+
+                  Future.delayed(Duration(seconds: 2), () {
+                    // Delay เป็นเวลา 2 วินาที
+                    Navigator.pop(context); // ปิดหน้าโหลด
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return SensorScreen();
+                    }));
+                  });
                 }),
             ListTile(
                 leading:
                     Icon(Icons.speed_rounded, size: 30, color: Colors.black),
                 title: Text('มาตรวัดเซนเซอร์',
                     style: TextStyle(fontSize: 18, color: Colors.black)),
-                onTap: () =>
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => sensorGaugeScreen(),
-                    ))),
+                onTap: () {
+                  // แสดงหน้าโหลด
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return LoadingScreen();
+                  }));
+
+                  Future.delayed(Duration(seconds: 2), () {
+                    // Delay เป็นเวลา 2 วินาที
+                    Navigator.pop(context); // ปิดหน้าโหลด
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return sensorGaugeScreen();
+                    }));
+                  });
+                }),
             Divider(
               color: Colors.black54,
             ),
@@ -97,12 +129,43 @@ class Navigation_Drawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18, color: Colors.red.shade900),
               ),
               onTap: () {
-                AllsignOut();
-                auth.signOut();
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) {
-                  return LoginScreen();
-                }));
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('ยืนยันการออกจากระบบ'),
+                      content: Text('คุณต้องการออกจากระบบใช่หรือไม่?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); // ปิดDialog
+                          },
+                          child: Text('ยกเลิก'),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            // แสดงหน้าโหลด
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return LoadingScreen();
+                            }));
+                            // Delay เป็นเวลา 2 วินาที
+                            Future.delayed(Duration(seconds: 2), () {
+                              Navigator.pop(context); // ปิดหน้าโหลด
+                              AllsignOut();
+                              auth.signOut();
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return LoginScreen();
+                              }));
+                            });
+                          },
+                          child: Text('ยืนยัน'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ],

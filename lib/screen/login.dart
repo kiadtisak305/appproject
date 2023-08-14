@@ -1,3 +1,4 @@
+import 'package:appproject/component/LoadingScreen.dart';
 import 'package:appproject/screen/register.dart';
 import 'package:appproject/screen/watercontrol.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   bool _isHidden = true;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +166,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       onTap: () async {
+                                        setState(() {
+                                          _isLoading =
+                                              true; // เริ่มแสดงสถานะการโหลด
+                                        });
+                                        // แสดงหน้าโหลด
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return LoadingScreen();
+                                        }));
                                         if (formKey.currentState!.validate()) {
                                           formKey.currentState!.save();
                                           print(
@@ -182,17 +194,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                               }));
                                             });
                                           } on FirebaseAuthException catch (e) {
+                                            // กระบวนการเข้าสู่ระบบไม่สำเร็จ
+                                            // ปิดหน้า LoadingScreen และกลับไปหน้า LoginScreenState
+                                            Navigator.pop(context);
                                             print(e.code);
                                             String? message;
                                             if (e.code == 'weak-password') {
                                               message =
                                                   "รหัสผ่านต้องมีความยาว 6 ตัวอักษรขึ้นไป";
                                             } else {
-                                              message = e.message;
+                                              message = "รหัสผ่านไม่ถูกต้อง";
                                             }
                                             Fluttertoast.showToast(
                                                 msg: message.toString(),
                                                 gravity: ToastGravity.CENTER);
+                                          } finally {
+                                            setState(() {
+                                              _isLoading =
+                                                  false; // สิ้นสุดแสดงสถานะการโหลด
+                                            });
                                           }
                                         }
                                       }),
@@ -241,6 +261,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                           ],
                                         ))),
                                     onTap: () {
+                                      setState(() {
+                                        _isLoading =
+                                            true; // เริ่มแสดงสถานะการโหลด
+                                      });
+                                      // แสดงหน้าโหลด
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return LoadingScreen();
+                                      }));
                                       //อีเว้นหลังจากกดปุ่ม
                                       signInWithGoogle()
                                           .then((UserCredential user) {
@@ -250,7 +279,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                           return WaterControlScreen();
                                         }));
                                       }).catchError((e) {
+                                        Navigator.pop(context);
                                         print(e.toString());
+                                      }).whenComplete(() {
+                                        setState(() {
+                                          _isLoading =
+                                              false; // สิ้นสุดแสดงสถานะการโหลด
+                                        });
                                       });
                                     },
                                   ),
@@ -295,12 +330,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       onTap: () {
-                                        //อีเว้นหลังจากกดปุ่ม
+                                        // แสดงหน้าโหลด
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: (context) {
-                                          return RegisterScreen();
+                                          return LoadingScreen();
                                         }));
+
+                                        Future.delayed(Duration(seconds: 2),
+                                            () {
+                                          // Delay เป็นเวลา 2 วินาที
+                                          Navigator.pop(context); // ปิดหน้าโหลด
+
+                                          // เปลี่ยนหน้าไปยังหน้า RegisterScreen
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) {
+                                            return RegisterScreen();
+                                          }));
+                                        });
                                       }),
                                 ),
                               ],
