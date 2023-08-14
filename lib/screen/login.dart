@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'package:appproject/component/LoadingScreen.dart';
 import 'package:appproject/screen/register.dart';
 import 'package:appproject/screen/watercontrol.dart';
