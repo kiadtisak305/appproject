@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class morningTable extends StatelessWidget {
-  const morningTable({super.key});
+class morningTableDetail extends StatelessWidget {
+  const morningTableDetail({super.key});
 
   @override
   Widget build(BuildContext context) {

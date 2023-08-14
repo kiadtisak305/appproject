@@ -1,8 +1,31 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class relativeHumidity extends StatelessWidget {
+class relativeHumidity extends StatefulWidget {
   const relativeHumidity({super.key});
+  _relativeHumidityState createState() => _relativeHumidityState();
+}
+
+class _relativeHumidityState extends State<relativeHumidity> {
+  final TextEditingController _RHValue = TextEditingController();
+  void initState() {
+    super.initState();
+    DatabaseReference ref = FirebaseDatabase.instance.ref();
+
+    ref
+        .child('sensor/gauge/app/Relative_Humidity')
+        .onValue
+        .listen((DatabaseEvent event) {
+      if (event.snapshot.value != null) {
+        setState(() {
+          final data = event.snapshot.value;
+          _RHValue.text = data.toString();
+          print("ค่าความชื้นสัมพัทธ์ = $data");
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +53,7 @@ class relativeHumidity extends StatelessWidget {
                   pointers: <GaugePointer>[
                     NeedlePointer(
                         enableAnimation: true,
-                        value: 70,
+                        value: double.tryParse(_RHValue.text) ?? 0.00,
                         lengthUnit: GaugeSizeUnit.factor,
                         needleLength: 0.6,
                         needleEndWidth: 9,
@@ -51,7 +74,7 @@ class relativeHumidity extends StatelessWidget {
                             sizeUnit: GaugeSizeUnit.factor,
                             color: Colors.black)),
                     RangePointer(
-                        value: 70,
+                        value: double.tryParse(_RHValue.text) ?? 0.00,
                         width: 20,
                         cornerStyle: CornerStyle.bothCurve,
                         enableAnimation: true,
@@ -62,7 +85,7 @@ class relativeHumidity extends StatelessWidget {
                         angle: 90,
                         positionFactor: 1,
                         widget: Text(
-                          '70.0%',
+                          _RHValue.text + '%',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ))

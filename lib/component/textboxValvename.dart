@@ -16,8 +16,7 @@ class _ValveNameState extends State<ValveName> {
       if (event.snapshot.value != null) {
         setState(() {
           final data = event.snapshot.value;
-          _textEditingController.text = data.toString();
-          print("ชื่อวาว์ล = $data");
+          print("ข้อมูลส่วน No1 = $data");
         });
       }
     });

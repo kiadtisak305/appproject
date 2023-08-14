@@ -1,8 +1,31 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class soilMoisture extends StatelessWidget {
+class soilMoisture extends StatefulWidget {
   const soilMoisture({super.key});
+  _soilMoistureState createState() => _soilMoistureState();
+}
+
+class _soilMoistureState extends State<soilMoisture> {
+  final TextEditingController _HumidityValue = TextEditingController();
+  void initState() {
+    super.initState();
+    DatabaseReference ref = FirebaseDatabase.instance.ref();
+
+    ref
+        .child('sensor/gauge/app/Humidity')
+        .onValue
+        .listen((DatabaseEvent event) {
+      if (event.snapshot.value != null) {
+        setState(() {
+          final data = event.snapshot.value;
+          _HumidityValue.text = data.toString();
+          print("ค่าความชื้นในดิน = $data");
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +74,7 @@ class soilMoisture extends StatelessWidget {
                   pointers: <GaugePointer>[
                     NeedlePointer(
                         enableAnimation: true,
-                        value: 70,
+                        value: double.tryParse(_HumidityValue.text) ?? 0.00,
                         lengthUnit: GaugeSizeUnit.factor,
                         needleLength: 0.6,
                         needleEndWidth: 9,
@@ -77,7 +100,7 @@ class soilMoisture extends StatelessWidget {
                         angle: 90,
                         positionFactor: 1,
                         widget: Text(
-                          '70.0%',
+                          _HumidityValue.text + '%',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ))

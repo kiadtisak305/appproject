@@ -1,12 +1,17 @@
-import 'package:appproject/screen/navigation.dart';
-import 'package:appproject/screen/textboxValvename.dart';
-import 'package:appproject/screen/textboxValvestatus.dart';
-import 'package:appproject/screen/valvestatus.dart';
+import 'package:appproject/component/ChangingButton.dart';
+import 'package:appproject/component/navigation.dart';
+import 'package:appproject/component/textboxValvename.dart';
+import 'package:appproject/component/textboxValvestatus.dart';
 import 'package:flutter/material.dart';
 
-class WaterControlScreen extends StatelessWidget {
+class WaterControlScreen extends StatefulWidget {
   const WaterControlScreen({super.key});
 
+  @override
+  State<WaterControlScreen> createState() => _WaterControlScreenState();
+}
+
+class _WaterControlScreenState extends State<WaterControlScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -50,7 +55,7 @@ class WaterControlScreen extends StatelessWidget {
                       height: 50,
                       child: ElevatedButton(
                         child: Text(
-                          "เปิด-ปิดวาล์ว ตามตาราง",
+                          "เปิด-ปิดวาล์ว อัตโนมัติ",
                           style: TextStyle(fontSize: 18),
                         ),
                         onPressed: () {},

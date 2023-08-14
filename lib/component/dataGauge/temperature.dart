@@ -1,8 +1,31 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class temperature extends StatelessWidget {
+class temperature extends StatefulWidget {
   const temperature({super.key});
+  _temperatureState createState() => _temperatureState();
+}
+
+class _temperatureState extends State<temperature> {
+  final TextEditingController _TempValue = TextEditingController();
+  void initState() {
+    super.initState();
+    DatabaseReference ref = FirebaseDatabase.instance.ref();
+
+    ref
+        .child('sensor/gauge/app/Temperature')
+        .onValue
+        .listen((DatabaseEvent event) {
+      if (event.snapshot.value != null) {
+        setState(() {
+          final data = event.snapshot.value;
+          _TempValue.text = data.toString();
+          print("อุณหภูมิ = $data");
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +102,7 @@ class temperature extends StatelessWidget {
                   pointers: <GaugePointer>[
                     NeedlePointer(
                         enableAnimation: true,
-                        value: 25,
+                        value: double.tryParse(_TempValue.text) ?? 0.00,
                         lengthUnit: GaugeSizeUnit.factor,
                         needleLength: 0.6,
                         needleEndWidth: 9,
@@ -105,7 +128,7 @@ class temperature extends StatelessWidget {
                         angle: 90,
                         positionFactor: 1,
                         widget: Text(
-                          '25 °C',
+                          _TempValue.text + '°C',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ))

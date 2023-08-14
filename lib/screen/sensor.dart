@@ -1,12 +1,16 @@
-import 'package:appproject/datatable/eveningTable.dart';
-import 'package:appproject/datatable/morningTable.dart';
-import 'package:appproject/datatable/noonTable.dart';
-import 'package:appproject/screen/navigation.dart';
+import 'package:appproject/component/datatable/eveningTable.dart';
+import 'package:appproject/component/datatable/morningTable.dart';
+import 'package:appproject/component/datatable/noonTable.dart';
+import 'package:appproject/component/navigation.dart';
 import 'package:flutter/material.dart';
 
-class SensorScreen extends StatelessWidget {
+class SensorScreen extends StatefulWidget {
   const SensorScreen({super.key});
 
+  _SensorScreenState createState() => _SensorScreenState();
+}
+
+class _SensorScreenState extends State<SensorScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,27 +22,27 @@ class SensorScreen extends StatelessWidget {
       backgroundColor: Color(0xFFE6E6E6),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(10),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Container(
-                  height: 600,
+                  height: 250,
                   child: Card(child: const morningTable()),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Container(
-                  height: 600,
+                  height: 250,
                   child: Card(child: const noonTable()),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(5.0),
                 child: Container(
-                  height: 450,
+                  height: 250,
                   child: Card(child: const eveningTable()),
                 ),
               ),

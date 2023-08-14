@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class noonTable extends StatelessWidget {
-  const noonTable({super.key});
+class noonTableDetail extends StatelessWidget {
+  const noonTableDetail({super.key});
 
   @override
   Widget build(BuildContext context) {

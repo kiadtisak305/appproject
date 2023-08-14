@@ -1,12 +1,16 @@
-import 'package:appproject/dataGauge/relativeHumidity.dart';
-import 'package:appproject/dataGauge/soilMoisture.dart';
-import 'package:appproject/dataGauge/temperature.dart';
-import 'package:appproject/screen/navigation.dart';
+import 'package:appproject/component/dataGauge/relativeHumidity.dart';
+import 'package:appproject/component/dataGauge/soilMoisture.dart';
+import 'package:appproject/component/dataGauge/temperature.dart';
+import 'package:appproject/component/navigation.dart';
 import 'package:flutter/material.dart';
 
-class sensorGaugeScreen extends StatelessWidget {
+class sensorGaugeScreen extends StatefulWidget {
   const sensorGaugeScreen({super.key});
 
+  _sensorGaugeScreenState createState() => _sensorGaugeScreenState();
+}
+
+class _sensorGaugeScreenState extends State<sensorGaugeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
