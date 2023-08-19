@@ -31,9 +31,14 @@ class _ValveNameState extends State<ValveName> {
       readOnly: true,
       textAlign: TextAlign.center,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+        ),
         hintText: _textEditingController.text,
-        hintStyle: TextStyle(fontSize: 20),
+        hintStyle: TextStyle(
+          fontSize: 20,
+          color: Colors.black,
+        ),
       ),
     );
   }

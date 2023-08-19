@@ -55,85 +55,122 @@ class _WaterControlScreenState extends State<WaterControlScreen> {
       drawer: Navigation_Drawer(),
       backgroundColor: Color(0xFFE6E6E6),
       body: Padding(
-        padding: const EdgeInsets.all(23),
+        padding: const EdgeInsets.all(15),
         child: Card(
-          color: Color.fromARGB(255, 253, 175, 201),
+          color: Color.fromARGB(255, 255, 255, 255),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 60),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'วาล์วน้ำ',
-                  style: TextStyle(fontSize: 25),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Text(
+                    'วาล์วน้ำ',
+                    style: TextStyle(fontSize: 25),
+                  ),
                 ),
-                Padding(padding: const EdgeInsets.all(30), child: ValveName()),
+                Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60, vertical: 30),
+                    child: ValveName()),
                 Text(
                   'สถานะวาล์วน้ำ',
                   style: TextStyle(fontSize: 25),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(30), child: StatusValve()),
-                Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: SlidingSwitch(
-                        value: switchStatus!,
-                        width: 290,
-                        onChanged: changeStatus,
-                        height: 50,
-                        animationDuration: const Duration(milliseconds: 1),
-                        onTap: () {
-                          if (switchValue.text == "on") {
-                            ref
-                                .child("Controls/waterValve/No1")
-                                .set({"Turn": "off", "Valve": "ปิด"});
-                          } else if (switchValue.text == "off") {
-                            ref
-                                .child("Controls/waterValve/No1")
-                                .set({"Turn": "on", "Valve": "เปิด"});
-                          }
-                        },
-                        onDoubleTap: () {},
-                        onSwipe: () {},
-                        textOff: "OFF",
-                        textOn: "ON",
-                        contentSize: 20,
-                        colorOn: const Color(0xff6682c0),
-                        colorOff: const Color(0xffdc6c73),
-                        background: const Color(0xffe4e5eb),
-                        buttonColor: const Color(0xfff7f5f7),
-                        inactiveColor: const Color(0xff636f7b),
-                      )),
-                ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 60, vertical: 30),
+                    child: StatusValve()),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      child: Text(
-                        "เปิด-ปิดวาล์ว อัตโนมัติ",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      onPressed: () {
-                        if (switchValue.text == "auto") {
-                          ref
-                              .child("Controls/waterValve/No1")
-                              .set({"Turn": "off", "Valve": "ปิด"});
-                        } else {
-                          ref
-                              .child("Controls/waterValve/No1")
-                              .set({"Turn": "auto", "Valve": "อัตโนมัติ"});
-                        }
-                      },
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(
-                              Colors.purple.shade300)),
+                      const EdgeInsets.symmetric(horizontal: 45, vertical: 50),
+                  child: Container(
+                    width: 300,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3), // สีเงา
+                          spreadRadius: 3, // รัศมีการกระจายของเงา
+                          blurRadius: 5, // รัศมีการกระจายของเงา
+                          offset: Offset(0, 3), // ตำแหน่งเงา (x, y)
+                        ),
+                      ],
                     ),
+                    child: SizedBox(
+                        width: 300,
+                        height: 70,
+                        child: SlidingSwitch(
+                          value: switchStatus!,
+                          width: 285,
+                          onChanged: changeStatus,
+                          height: 70,
+                          animationDuration: const Duration(milliseconds: 1),
+                          onTap: () {
+                            if (switchValue.text == "on") {
+                              ref
+                                  .child("Controls/waterValve/No1")
+                                  .set({"Turn": "off", "Valve": "ปิด"});
+                            } else if (switchValue.text == "off") {
+                              ref
+                                  .child("Controls/waterValve/No1")
+                                  .set({"Turn": "on", "Valve": "เปิด"});
+                            }
+                          },
+                          onDoubleTap: () {},
+                          onSwipe: () {},
+                          textOff: "OFF",
+                          textOn: "ON",
+                          contentSize: 20,
+                          colorOn: Color.fromARGB(255, 0, 81, 255),
+                          colorOff: Color.fromARGB(255, 255, 0, 17),
+                          background: Color.fromARGB(255, 202, 202, 204),
+                          buttonColor: const Color(0xfff7f5f7),
+                          inactiveColor: const Color(0xff636f7b),
+                        )),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 45),
+                  child: InkWell(
+                    child: Container(
+                        width: double.infinity,
+                        height: 70,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.purple.shade300,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3), // สีเงา
+                              spreadRadius: 3, // รัศมีการกระจายของเงา
+                              blurRadius: 5, // รัศมีการกระจายของเงา
+                              offset: Offset(0, 3), // ตำแหน่งเงา (x, y)
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "เปิด-ปิดวาล์ว อัตโนมัติ",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
+                          ],
+                        )),
+                    onTap: () {
+                      if (switchValue.text == "auto") {
+                        ref
+                            .child("Controls/waterValve/No1")
+                            .set({"Turn": "off", "Valve": "ปิด"});
+                      } else {
+                        ref
+                            .child("Controls/waterValve/No1")
+                            .set({"Turn": "auto", "Valve": "อัตโนมัติ"});
+                      }
+                    },
                   ),
                 )
               ],
