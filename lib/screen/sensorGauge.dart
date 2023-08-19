@@ -20,38 +20,33 @@ class _sensorGaugeScreenState extends State<sensorGaugeScreen> {
         centerTitle: true,
       ),
       backgroundColor: Color(0xFFE6E6E6),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: Container(
-                  height: 450,
-                  child: Card(
-                    child: const soilMoisture(),
-                    color: Colors.pink.shade200,
-                  ),
-                ),
+      body: PageView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              height: 450,
+              child: Card(
+                child: const soilMoisture(),
               ),
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: Container(
-                  height: 450,
-                  child: Card(child: const relativeHumidity()),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5),
-                child: Container(
-                  height: 450,
-                  child: Card(child: const temperature()),
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              height: 450,
+              child: Card(child: const temperature()),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Container(
+              height: 450,
+              child: Card(child: const relativeHumidity()),
+            ),
+          ),
+        ],
       ),
     );
   }

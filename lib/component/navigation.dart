@@ -38,8 +38,8 @@ class Navigation_Drawer extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 52,
-                  backgroundImage:
-                      NetworkImage(auth.currentUser!.photoURL ?? ''),
+                  backgroundImage: NetworkImage(auth.currentUser!.photoURL ??
+                      'https://firebasestorage.googleapis.com/v0/b/irrigation-project-190ab.appspot.com/o/blank-profile.png?alt=media&token=03a6eaf4-759d-4561-ac5d-f3e1db03fe98'),
                 ),
                 SizedBox(
                   height: 12,
