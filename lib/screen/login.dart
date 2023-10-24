@@ -10,7 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../model/profile.dart';
+import '../app/data/model/profile.dart';
 
 //import '../presentation/my_flutter_app_icons.dart';
 

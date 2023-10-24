@@ -1,4 +1,4 @@
-import 'package:appproject/model/profile.dart';
+import 'package:appproject/app/data/model/profile.dart';
 import 'package:appproject/screen/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
