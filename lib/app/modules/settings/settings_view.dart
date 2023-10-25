@@ -1,10 +1,13 @@
-import 'package:appproject/app/config/enums/icon_enums.dart';
-import 'package:appproject/app/config/extensions/string_extensions.dart';
+import 'package:appproject/app/components/custom_appbar.dart';
+import 'package:appproject/app/components/popup/popups.dart';
+import 'package:appproject/component/LoadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../components/screen_title.dart';
+import '../../config/extensions/constants.dart';
+import '../../services/firebase_services.dart';
 import 'settings_controller.dart';
 import 'widgets/settings_item.dart';
 
@@ -14,19 +17,18 @@ class SettingsView extends GetView<SettingsController> {
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
-    return Scaffold(
+    if (controller.userName == null) {
+      return const LoadingScreen();
+    } else {
+      return Scaffold(
+        appBar: const CustomAppbar(title: "การตั้งค่า"),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: ListView(
           children: [
-            30.verticalSpace,
-            const ScreenTitle(
-              title: 'Settings',
-              dividerEndIndent: 230,
-            ),
             20.verticalSpace,
             Text(
-              'Account',
+              'บัญชี',
               style: theme.textTheme.displayMedium?.copyWith(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.normal,
@@ -34,43 +36,48 @@ class SettingsView extends GetView<SettingsController> {
             ),
             20.verticalSpace,
             SettingsItem(
-              title: 'Mike Tyson',
-              icon: IconEnums.user.iconName.toSvg,
+              title: FirebaseServices().auth.currentUser!.displayName.toString(),
+              icon: Constants.userIcon,
               isAccount: true,
             ),
             30.verticalSpace,
             Text(
-              'Settings',
+              'ตั้งค่า',
               style: theme.textTheme.displayMedium?.copyWith(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.normal,
               )
             ),
             20.verticalSpace,
-            SettingsItem(
-              title: 'Dark Mode',
-              icon: IconEnums.theme.iconName.toSvg,
+            const SettingsItem(
+              title: 'โหมดมืด',
+              icon: Constants.themeIcon,
               isDark: true,
             ),
             25.verticalSpace,
-            SettingsItem(
-              title: 'Language',
-              icon: IconEnums.language.iconName.toSvg,
-            ),
-            25.verticalSpace,
-            SettingsItem(
-              title: 'Help',
-              icon: IconEnums.help.iconName.toSvg,
-            ),
-            25.verticalSpace,
-            SettingsItem(
-              title: 'Sign Out',
-              icon: IconEnums.logout.iconName.toSvg,
+            // const SettingsItem(
+            //   title: 'Language',
+            //   icon: Constants.languageIcon,
+            // ),
+            // 25.verticalSpace,
+            // const SettingsItem(
+            //   title: 'Help',
+            //   icon: Constants.helpIcon,
+            // ),
+            // 25.verticalSpace,
+            InkWell(
+              child: const SettingsItem(
+                title: 'ออกจากระบบ',
+                icon: Constants.logoutIcon,
+              ),
+              onTap: () => PopupUtils.logOutPopup(context),
             ),
             20.verticalSpace,
           ],
         ),
       ),
     );
+    }
+    
   }
 }

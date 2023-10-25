@@ -14,9 +14,7 @@ class FirebaseServices extends IFirebaseServices {
 
   @override
   Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn(
-      // scopes: <String>[FirebaseEnums.email.value],
-    ).signIn();
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     final GoogleSignInAuthentication? googleAuth =
         await googleUser?.authentication;
@@ -31,7 +29,8 @@ class FirebaseServices extends IFirebaseServices {
 
   @override
   Future<void> signOut() async {
-    FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+    auth.signOut();
   }
   
   @override

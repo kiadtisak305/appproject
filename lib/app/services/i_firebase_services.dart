@@ -12,6 +12,7 @@ abstract class IFirebaseServices {
     required String password,
   });
   Future<UserCredential> signInWithGoogle();
+  Future<void> signOut();
 
   // Firestore
 }

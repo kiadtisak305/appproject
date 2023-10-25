@@ -1,11 +1,13 @@
 import 'package:appproject/app/config/enums/icon_enums.dart';
 import 'package:appproject/app/config/extensions/string_extensions.dart';
+import 'package:appproject/app/services/firebase_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../../config/extensions/constants.dart';
 import '../settings_controller.dart';
 
 class SettingsItem extends StatelessWidget {
@@ -29,7 +31,7 @@ class SettingsItem extends StatelessWidget {
         fontSize: 16.sp,
       )),
       subtitle: !isAccount ? null : Text(
-        '+218 92 00 000 00',
+        FirebaseServices().auth.currentUser!.email.toString(),
         style: theme.textTheme.displaySmall,
       ),
       leading: CircleAvatar(
@@ -46,18 +48,11 @@ class SettingsItem extends StatelessWidget {
               activeColor: theme.primaryColor,
             ),
           )
-        : Container(
-            width: 40.w,
-            height: 40.h,
-            decoration: BoxDecoration(
-              color: theme.primaryColor,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: SvgPicture.asset(
-              IconEnums.forwardArrow.iconName.toSvg,
-              fit: BoxFit.none
-            ),
-          ),
+        : SvgPicture.asset(
+          Constants.forwardArrowIcon,
+          fit: BoxFit.none,
+          color: theme.iconTheme.color,
+        ),
     );
   }
 }

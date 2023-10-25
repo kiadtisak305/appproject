@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
+import '../../config/extensions/constants.dart';
 import '../home/home_view.dart';
 import '../settings/settings_view.dart';
 import 'base_controller.dart';
@@ -63,7 +64,8 @@ class BaseView extends GetView<BaseController> {
               items: [
                 _mBottomNavItem(
                   label: 'Home',
-                  icon: IconEnums.home.iconName.toSvg,
+                  // icon: IconEnums.home.iconName.toSvg,
+                  icon: Constants.homeIcon,
                 ),
                 // _mBottomNavItem(
                 //   label: 'Favorites',
@@ -71,7 +73,8 @@ class BaseView extends GetView<BaseController> {
                 // ),
                 _mBottomNavItem(
                   label: 'Settings',
-                  icon: IconEnums.settings.iconName.toSvg,
+                  // icon: IconEnums.settings.iconName.toSvg,
+                  icon: Constants.settingsIcon,
                 ),
               ],
               onTap: controller.changeScreen,
