@@ -26,10 +26,10 @@ class DarkThemeColors
   static const Color buttonDisabledTextColor = Colors.black;
 
   //TEXT
-  static const Color bodyTextColor = Color(0xFF96A7AF);
+  static const Color bodyTextColor = Color(0xFFFFFFFF);
   static const Color displayTextColor = Colors.white;
   static const Color bodySmallTextColor = Color(0xFF96A7AF);
-  static const Color hintTextColor =  Color(0xff686868);
+  static const Color hintTextColor =  Color(0xFF96A7AF);
 
   //chip
   static const Color chipBackground = primaryColor;

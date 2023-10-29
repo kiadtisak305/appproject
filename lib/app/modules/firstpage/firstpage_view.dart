@@ -26,22 +26,6 @@ class FirstPageView extends GetView<FirstPageController> {
         body: Stack(
           children: [
             Positioned(
-              child: ClipPath(
-                clipper: DiagonalPathClipperOne(),
-                child: Container(
-                  color: const Color(0xff558b2f),
-                ),
-              ),
-            ),
-            Positioned(
-              child: ClipPath(
-                clipper: DiagonalPathClipperTwo(),
-                child: Container(
-                  color: const Color(0xff056f00),
-                ),
-              ),
-            ),
-            Positioned(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
@@ -112,7 +96,7 @@ class FirstPageView extends GetView<FirstPageController> {
                       child: InkWell(
                         child: Image.asset("assets/images/google-logo.png"),
                         onTap: () {
-                          controller.toRegisterPage();
+                          controller.googleSignIn();
                         },
                       ),
                     ),
@@ -136,10 +120,12 @@ class FirstPageView extends GetView<FirstPageController> {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
-                                color: Colors.blue.shade200,
+                                color: Colors.blue.shade300,
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              controller.toRegisterPage();
+                            },
                           ),
                         )
                       ],
@@ -152,43 +138,5 @@ class FirstPageView extends GetView<FirstPageController> {
         ),
       ),
     ));
-  }
-}
-
-class DiagonalPathClipperOne extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path()
-      ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width, size.height - 225)
-      ..lineTo(0, size.height - 300)
-      ..close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
-  }
-}
-
-class DiagonalPathClipperTwo extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path()
-      ..lineTo(0, size.height)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width, size.height - 190)
-      ..lineTo(0, size.height - 300)
-      ..close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

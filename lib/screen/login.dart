@@ -1,18 +1,9 @@
-// ignore_for_file: unused_field
-
-import 'package:appproject/component/LoadingScreen.dart';
-import 'package:appproject/screen/register.dart';
-import 'package:appproject/screen/watercontrol.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:appproject/app/services/firebase_services.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'package:get/get.dart';
 
 import '../app/data/model/profile.dart';
-
-//import '../presentation/my_flutter_app_icons.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,367 +15,143 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   Profile profile = Profile(username: '', email: '', password: '');
-  final Future<FirebaseApp> firebase = Firebase.initializeApp();
 
   bool _isHidden = true;
-  bool _isLoading = false;
-
-  Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: firebase,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("Error"),
+    final theme = context.theme;
+    return Form(
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: theme.brightness == Brightness.light ? Colors.black : Colors.white,
+                      width: 2,
+                    )
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: theme.brightness == Brightness.light ? Colors.black : Colors.white,
+                      width: 2,
+                    )
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: Color(0xffd01716),
+                      width: 2,
+                    )
+                  ),
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: Color(0xffd01716),
+                      width: 2,
+                    )
+                  ),
+                  hintText: "E-mail",
+                  hintStyle: const TextStyle(fontSize: 16),
+                  
               ),
-              body: Center(
-                child: Text("${snapshot.error}"),
-              ),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            return SafeArea(
-              child: Scaffold(
-                backgroundColor: Color(0xFFE6E6E6),
-                body: Stack(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/background.jpg'),
-                        fit: BoxFit.cover,
-                      ),
+              cursorColor: Colors.black,
+              validator: MultiValidator([
+                RequiredValidator(errorText: "กรุณาป้อนอีเมล"),
+                EmailValidator(errorText: "รูปแบบอีเมลไม่ถูกต้อง")
+              ]),
+              keyboardType: TextInputType.emailAddress,
+              onSaved: (email) {
+                profile.email = email!;
+              },
+            ),
+            TextFormField(
+              decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: theme.brightness == Brightness.light ? Colors.black : Colors.white,
+                      width: 2,
+                    )
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: theme.brightness == Brightness.light ? Colors.black : Colors.white,
+                      width: 2,
+                    )
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: Color(0xffd01716),
+                      width: 2,
+                    )
+                  ),
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(50)),
+                    borderSide: BorderSide(
+                      color: Color(0xffd01716),
+                      width: 2,
+                    )
+                  ),
+                  hintText: "Password",
+                  hintStyle: const TextStyle(fontSize: 16),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isHidden = !_isHidden;
+                      });
+                    },
+                    icon: Icon(_isHidden
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                  )),
+                  cursorColor: Colors.black,
+              validator:
+                  RequiredValidator(errorText: "กรุณาป้อนรหัสผ่าน"),
+              obscureText: _isHidden,
+              onSaved: (password) {
+                profile.password = password!;
+              },
+            ),
+            //------------------------------------------ login btn -----------------------------------------------------------------------
+            InkWell(
+                child: Container(
+                  width: 200,
+                  height: 55,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: const Color(0xffec407a)),
+                  child: const Center(
+                    child: Text(
+                      "เข้าสู่ระบบ",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
                     ),
                   ),
-                  SingleChildScrollView(
-                      child: Column(children: [
-                    Container(
-                      child: Form(
-                        key: formKey,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 35, vertical: 180),
-                          child: Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Center(
-                                    child: Text(
-                                      "Login",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w800,
-                                          fontSize: 25),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 15.0,
-                                      right: 30,
-                                      left: 30,
-                                      bottom: 8),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15)),
-                                        ),
-                                        hintText: "E-mail",
-                                        hintStyle: TextStyle(fontSize: 20)),
-                                    validator: MultiValidator([
-                                      RequiredValidator(
-                                          errorText: "กรุณาป้อนอีเมล"),
-                                      EmailValidator(
-                                          errorText: "รูปแบบอีเมลไม่ถูกต้อง")
-                                    ]),
-                                    keyboardType: TextInputType.emailAddress,
-                                    onSaved: (email) {
-                                      profile.email = email!;
-                                    },
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 5.0, right: 30, left: 30, bottom: 8),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(15)),
-                                        ),
-                                        hintText: "Password",
-                                        hintStyle: TextStyle(fontSize: 20),
-                                        suffixIcon: IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              _isHidden = !_isHidden;
-                                            });
-                                          },
-                                          icon: Icon(_isHidden
-                                              ? Icons.visibility_off
-                                              : Icons.visibility),
-                                        )),
-                                    validator: RequiredValidator(
-                                        errorText: "กรุณาป้อนรหัสผ่าน"),
-                                    obscureText: _isHidden,
-                                    onSaved: (password) {
-                                      profile.password = password!;
-                                    },
-                                  ),
-                                ),
-
-                                //------------------------------------------ login btn -----------------------------------------------------------------------
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 30),
-                                  child: InkWell(
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            color: Colors.pink),
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Text(
-                                                "เข้าสู่ระบบ",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      onTap: () async {
-                                        setState(() {
-                                          _isLoading =
-                                              true; // เริ่มแสดงสถานะการโหลด
-                                        });
-                                        // แสดงหน้าโหลด
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return LoadingScreen();
-                                        }));
-                                        if (formKey.currentState!.validate()) {
-                                          formKey.currentState!.save();
-                                          print(
-                                              "email = ${profile.email} password = ${profile.password}");
-                                          try {
-                                            await FirebaseAuth.instance
-                                                .signInWithEmailAndPassword(
-                                                    email: profile.email,
-                                                    password: profile.password)
-                                                .then((value) {
-                                              formKey.currentState!.reset();
-                                              Navigator.pushReplacement(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                return WaterControlScreen();
-                                              }));
-                                            });
-                                          } on FirebaseAuthException catch (e) {
-                                            // กระบวนการเข้าสู่ระบบไม่สำเร็จ
-                                            // ปิดหน้า LoadingScreen และกลับไปหน้า LoginScreenState
-                                            Navigator.pop(context);
-                                            print(e.code);
-                                            String? message;
-                                            if (e.code == 'weak-password') {
-                                              message =
-                                                  "รหัสผ่านต้องมีความยาว 6 ตัวอักษรขึ้นไป";
-                                            } else {
-                                              message = "รหัสผ่านไม่ถูกต้อง";
-                                            }
-                                            Fluttertoast.showToast(
-                                                msg: message.toString(),
-                                                gravity: ToastGravity.CENTER);
-                                          } finally {
-                                            setState(() {
-                                              _isLoading =
-                                                  false; // สิ้นสุดแสดงสถานะการโหลด
-                                            });
-                                          }
-                                        }
-                                      }),
-                                ),
-                                //------------------------------------------ login btn -----------------------------------------------------------------------
-
-                                //------------------------------------------ login with google btn -----------------------------------------------------------
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 30),
-                                  child: InkWell(
-                                    child: Container(
-                                        width: double.infinity, //ขนาดปุ่ม
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            color: Colors.black),
-                                        child: Center(
-                                            child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                              height: 30.0,
-                                              width: 30.0,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        'assets/images/google-logo.png'),
-                                                    fit: BoxFit.cover),
-                                                shape: BoxShape.circle,
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10)),
-                                            Text(
-                                              'เข้าสู่ระบบด้วย Google',
-                                              style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ],
-                                        ))),
-                                    onTap: () {
-                                      setState(() {
-                                        _isLoading =
-                                            true; // เริ่มแสดงสถานะการโหลด
-                                      });
-                                      // แสดงหน้าโหลด
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) {
-                                        return LoadingScreen();
-                                      }));
-                                      //อีเว้นหลังจากกดปุ่ม
-                                      signInWithGoogle()
-                                          .then((UserCredential user) {
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return WaterControlScreen();
-                                        }));
-                                      }).catchError((e) {
-                                        Navigator.pop(context);
-                                        print(e.toString());
-                                      }).whenComplete(() {
-                                        setState(() {
-                                          _isLoading =
-                                              false; // สิ้นสุดแสดงสถานะการโหลด
-                                        });
-                                      });
-                                    },
-                                  ),
-                                ),
-
-                                //------------------------------------------ login with google btn -----------------------------------------------------------
-
-                                //------------------------------------------ register btn --------------------------------------------------------------------
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 15, horizontal: 30),
-                                  child: InkWell(
-                                      child: Container(
-                                        width: double.infinity, //ขนาดปุ่ม
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            color: Colors.pink),
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.add,
-                                                color: Colors.white,
-                                              ),
-                                              Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: 3)),
-                                              Text(
-                                                "สมัครบัญชีผู้ใช้งาน",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        // แสดงหน้าโหลด
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return LoadingScreen();
-                                        }));
-
-                                        Future.delayed(Duration(seconds: 2),
-                                            () {
-                                          // Delay เป็นเวลา 2 วินาที
-                                          Navigator.pop(context); // ปิดหน้าโหลด
-
-                                          // เปลี่ยนหน้าไปยังหน้า RegisterScreen
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) {
-                                            return RegisterScreen();
-                                          }));
-                                        });
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ),
-                          //------------------------------------------ register btn --------------------------------------------------------------------
-                        ),
-                      ),
-                    ),
-                  ]))
-                ]),
-              ),
-            );
-          }
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        });
+                ),
+                onTap: () async {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    print(
+                        "email = ${profile.email} password = ${profile.password}");
+                    FirebaseServices().login(email: profile.email, password: profile.password);
+                  }
+                }),
+          ],
+        ),
+      ),
+    );
   }
 }

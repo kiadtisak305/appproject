@@ -69,12 +69,8 @@ class PopupUtils {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomButton(
-                  onTap: () async {
-                    FirebaseServices().signOut().then((_) async {
-                      Get.toNamed(Routes.LOAD);
-                      await Future.delayed(const Duration(seconds: 2));
-                      return Get.offAllNamed(Routes.FIRST);
-                    });
+                  onTap: () {
+                    FirebaseServices().signOut();
                   },
                   text: "ยืนยัน",
                   width: 80,

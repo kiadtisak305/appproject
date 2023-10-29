@@ -26,7 +26,7 @@ class LightThemeColors
   static const Color buttonDisabledTextColor = Colors.black;
 
   //TEXT
-  static const Color bodyTextColor = Color(0xFF30444E);
+  static const Color bodyTextColor = Color(0xFF000000);
   static const Color displayTextColor = Colors.black;
   static const Color bodySmallTextColor = Color(0xFF30444E);
   static const Color hintTextColor =  Color(0xff686868);
